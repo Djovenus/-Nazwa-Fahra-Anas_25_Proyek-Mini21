@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <title>Mini Project 21</title>
+    <style>
+        .body {
+            font-family: Times New Roman;
+            margin: 100px;
+            font-size: 30px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        
+        #dataForm {
+            margin-bottom: 50px;
+        }
+
+        #nama {
+            margin-left: 50px;
+            border: 1px solid black;
+            font-size: 20px;
+        }
+
+        #berat {
+            margin-left: 140px;
+            border: 1px solid black;
+            margin-top: 20px;
+            font-size: 20px;
+        }
+
+        #button {
+            padding: 10px;
+            margin-top: 20px;
+            margin-left: 220px;
+            font-size: 20px;
+            border-radius: 10px;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 20px;
+            text-align: center;
+        }
+
+        button {
+            margin-top: 5px;
+            padding: 10px;
+            border-radius: 10px;
+            font-size: 20px;
+        }
+
+        .red-background {
+            background-color: red;
+            color: white;
+        }
+    </style>
+</head>
+<body class="body">
+    <div class="container">
+        <form id="dataForm">
+            <label>Nama Buah</label>
+            <input type="text" id="nama" required><br>
+            <label>Berat</label>
+            <input type="number" id="berat" required> <label>Kg</label><br>
+            <button type="submit" id="button">Simpan</button>
+        </form>
+        
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama Buah</th>
+                    <th>Berat</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Rambutan</td>
+                    <td>2kg</td>
+                    <td><button class="delete-button">Hapus</button></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Mangga</td>
+                    <td>6kg</td>
+                    <td><button class="delete-button">Hapus</button></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Jeruk</td>
+                    <td>2kg</td>
+                    <td><button class="delete-button">Hapus</button></td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>Melon</td>
+                    <td>7kg</td>
+                    <td><button class="delete-button">Hapus</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+        document.getElementById('dataForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const nama = document.getElementById('nama').value;
+            const berat = parseFloat(document.getElementById('berat').value);
+            
+            const tableBody = document.querySelector('#dataTable tbody');
+            const rowCount = tableBody.rows.length;
+
+            const newRow = tableBody.insertRow(rowCount);
+            newRow.insertCell(0).innerText = rowCount + 1; 
+            newRow.insertCell(1).innerText = nama; 
+            newRow.insertCell(2).innerText = berat; 
+
+            if (berat > 5) {
+                newRow.classList.add('red-background');
+            }
+
+            const deleteCell = newRow.insertCell(3);
+            const deleteButton = document.createElement('button');
+            deleteButton.innerText = 'Hapus';
+            deleteButton.onclick = function() {
+                tableBody.deleteRow(newRow.rowIndex - 1); 
+                updateRowNumbers();
+            };
+            deleteCell.appendChild(deleteButton);
+
+            document.getElementById('dataForm').reset();
+        });
+
+        function updateRowNumbers() {
+            const tableBody = document.querySelector('#dataTable tbody');
+            for (let i = 0; i < tableBody.rows.length; i++) {
+                tableBody.rows[i].cells[0].innerText = i + 1;
+            }
+        }
+    </script>
+    </html>
